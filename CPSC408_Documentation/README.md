@@ -4,9 +4,9 @@
 **References**
 
 * Article links
-  *https://acquire.io/blog/problems-solutions-ecommerce-faces/
-  *https://retailnext.net/en/blog/the-influence-of-database-in-the-retail-industry/
-  *http://archive.ics.uci.edu/ml/machine-learning-databases/00352/
+  *https://acquire.io/blog/problems-solutions-ecommerce-faces/  
+  *https://retailnext.net/en/blog/the-influence-of-database-in-the-retail-industry/  
+  *http://archive.ics.uci.edu/ml/machine-learning-databases/00352/  
 
 * Data Visualization References
   *https://mdbootstrap.com/docs/jquery/javascript/charts/
