@@ -10,6 +10,9 @@
 
 * Data Visualization References</br>
   *https://mdbootstrap.com/docs/jquery/javascript/charts/</br>
+  
+* Performing Raw SQL Queries that return model instances
+  * https://docs.djangoproject.com/en/3.0/topics/db/sql/
 
 **Reasons to Use Django**</br>
 * What is it? </br>
