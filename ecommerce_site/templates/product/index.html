@@ -1,0 +1,12 @@
+{% if all_products %}
+    <h3>Here are all my products:</h3>
+    <ul>
+        {% for product in all_products %}
+        <li> <a href="/ecommerce_site/{{ product.id }}/"> {{ product.prod_name}}</a>
+            {{ product.supplier }} {{ product.price }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>You don't have any products</h3>
+{% endif %}
