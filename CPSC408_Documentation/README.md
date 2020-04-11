@@ -1,6 +1,13 @@
 
 # ECommerce Website Documentation
 
+**How to set up the environment**
+clone repository
+open project in pycharm
+pip install django
+pip install mysql-client
+
+
 **References**
 
 * Article links</br>
