@@ -4,10 +4,15 @@ from django.http import HttpResponse
 #from django.template import loader #there's a short cut using shortcuts
 from .models import Product, Supplier, Customer, Order
 
+def index(request):
+    return render(request, 'ecommerce_site/index.html')
 
+
+"""
 def index(request):
     all_products = Product.objects.raw('SELECT * FROM ecommerce_site_product')
     return render(request, 'product/index.html', {'all_products' : all_products})
+"""
 
 
 def product_detail(request, product_id):
