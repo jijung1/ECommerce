@@ -7,6 +7,8 @@ from .models import Product, Supplier, Customer, Order
 def index(request):
     return render(request, 'ecommerce_site/index.html')
 
+def advanced_query(request):
+    return
 
 """
 def index(request):

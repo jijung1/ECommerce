@@ -16,6 +16,15 @@ body {
     font-family: 'Varela Round', sans-serif;
     */
 }
+.navbar-brand {
+    font-family: 'Varela Round', sans-serif;
+    color: black;
+}
+
+.row{
+    padding: 10%;
+    padding-top: 30%;
+}
 
 
 
