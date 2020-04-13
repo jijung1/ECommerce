@@ -1,6 +1,12 @@
 
 # ECommerce Website Documentation
 
+**How to set up the environment**
+clone repository <br>
+open project in pycharm </br>
+pip install django <br>
+
+
 **References**
 
 * Article links</br>
