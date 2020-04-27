@@ -2,6 +2,7 @@ from faker import Faker
 import pandas as pd
 import csv
 import sys
+import random
 import datetime
 
 #expect as terminal args: python generate.py file_name number_of_records
@@ -30,7 +31,8 @@ def generate_supplier(num_records):
                          fake.pyfloat(left_digits=3, right_digits=2, positive=True, min_value=1, max_value=999)])
 
 
-#Handle constraints separately after generating all relation data
+# Handle constraints using import.py after generating all relation data
+
 def generate_product(num_records):
     fake = Faker()
     csv_file = open('product.csv', 'w')
@@ -53,6 +55,26 @@ def generate_customer(num_records):
     writer = csv.writer(csv_file)
     for i in range(1, int(num_records)+1):
         writer.writerow([i, fake.first_name(), fake.last_name(), fake.bs(), fake.email(), fake.street_address(), fake.city(), fake.state(), fake.country(), None])
+
+
+def generate_shipper(num_records):
+    fake = Faker()
+    csv_file = open('shipper.csv', 'w')
+    writer = csv.writer(csv_file)
+    for i in range(1, int(num_records)+1):
+        writer.writerow([i, fake.bs(), fake.phone_number()])
+
+
+def generate_order(num_records):
+    fake = Faker()
+    csv_file = open('order.csv', 'w')
+    writer = csv.writer(csv_file)
+    status = ['Initiated', 'Pending_Payment', 'In-Transit', 'Completed', 'Overdue']
+    for i in range(1, int(num_records)+1):
+        writer.writerow([i, None, None, None, fake.bothify(text="???#########", letters='ACFTCNZXY'),
+                         random.choice(status), fake.random_int(min=0, max=10), fake.street_address(), fake.city(),
+                        fake.state(), fake.country(), fake.postcode(), fake.pyfloat(left_digits=4, right_digits=2, positive=True, min_value=999, max_value=9999),
+                        fake.date_time_between(start_date='-70d', end_date='-50d'), fake.date_time_between(start_date='-50d', end_date='-30d'), fake.date_time_between(start_date='-30d', end_date='-10d')])
 """
 fake.street_address()
 fake.city()
@@ -90,8 +112,13 @@ if __name__ == "__main__":
             generate_employee(sys.argv[2])
         elif "customer" in sys.argv[1].lower():
             generate_customer(sys.argv[2])
+        elif "shipper" in sys.argv[1].lower():
+            generate_shipper(sys.argv[2])
+        elif "order" in sys.argv[1].lower():
+            generate_order(sys.argv[2])
         else:
-            print('u done f''d up')
+            print('Unexpected Input. Expected Syntax: generate.py <file_name> <num_of_records>')
+            sys.exit(0)
 
 
 
