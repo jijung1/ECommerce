@@ -54,8 +54,8 @@ def generate_order(num_records):
     writer = csv.writer(csv_file)
     status = ['Initiated', 'Pending_Payment', 'In-Transit', 'Completed', 'Overdue']
     for i in range(1, int(num_records)+1):
-        writer.writerow([i, None, None, None, fake.bothify(text="???#########", letters='ACFTCNZXY'),
-                         random.choice(status), fake.random_int(min=0, max=10), fake.street_address(), fake.city(),
+        writer.writerow([i, fake.bothify(text="???#########", letters='ACFTCNZXY'),
+                         random.choice(status), fake.random_int(min=1, max=5), fake.street_address(), fake.city(),
                         fake.state(), fake.country(), fake.postcode(), fake.pyfloat(left_digits=4, right_digits=2, positive=True, min_value=999, max_value=9999),
                         fake.date_time_between(start_date='-70d', end_date='-50d'), fake.date_time_between(start_date='-50d', end_date='-30d'), fake.date_time_between(start_date='-30d', end_date='-10d')])
 
@@ -64,17 +64,17 @@ if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Unexpected Input. Expected Syntax: generate.py <file_name> <num_of_records>")
     else:
-        if "supplier" in sys.argv[1].lower():
+        if "supplier.csv" in sys.argv[1].lower():
             generate_supplier(sys.argv[2])
-        elif "product" in sys.argv[1].lower():
+        elif "product.csv" in sys.argv[1].lower():
             generate_product(sys.argv[2])
-        elif "employee" in sys.argv[1].lower():
+        elif "employee.csv" in sys.argv[1].lower():
             generate_employee(sys.argv[2])
-        elif "customer" in sys.argv[1].lower():
+        elif "customer.csv" in sys.argv[1].lower():
             generate_customer(sys.argv[2])
-        elif "shipper" in sys.argv[1].lower():
+        elif "shipper.csv" in sys.argv[1].lower():
             generate_shipper(sys.argv[2])
-        elif "order" in sys.argv[1].lower():
+        elif "order.csv" in sys.argv[1].lower():
             generate_order(sys.argv[2])
         else:
             print('Unexpected Input. Expected Syntax: generate.py <file_name> <num_of_records>')

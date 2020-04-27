@@ -4,7 +4,6 @@ import pandas as pd
 from faker import Faker
 
 
-# read from supplier.csv and return in dataframe
 def import_csv(filename):
     return pd.read_csv(filename, header=None)
 
@@ -28,6 +27,91 @@ if __name__ == '__main__':
     conn = connect()
     cursor = conn.cursor()
 
+    # Create tables if they do not already exist, then add constraints between relations using ALTER TABLE
+
+    cursor.execute(
+    """
+    CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_customer`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+        `first_name` varchar(50) NOT NULL,
+        `last_name` varchar(50) NOT NULL, 
+        `company` varchar(50) NOT NULL, 
+        `email` varchar(50) NOT NULL, 
+        `ship_street` varchar(50) NOT NULL, 
+        `ship_city` varchar(50) NOT NULL, 
+        `ship_state` varchar(50) NOT NULL, 
+        `ship_country` varchar(50) NOT NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_employee`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+        `first_name` varchar(50) NOT NULL, 
+        `last_name` varchar(50) NOT NULL, 
+        `title` varchar(50) NOT NULL, 
+        `email` varchar(50) NOT NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_shipper`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+        `shipper_name` varchar(64) NOT NULL, 
+        `phone` varchar(31) NOT NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_supplier`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+        `supplier_name` varchar(50) NOT NULL, 
+        `product_name` varchar(50) NOT NULL, 
+        `price` numeric(20, 2) NOT NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_product`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+        `prod_name` varchar(100) NOT NULL, 
+        `price` numeric(20, 2) NOT NULL, 
+        `units_in_stock` integer NOT NULL, 
+        `units_on_order` integer NOT NULL, 
+        `supplier_id_id` integer NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_order`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+        `tracking_number` varchar(50) NOT NULL, 
+        `status` varchar(50) NOT NULL, 
+        `customer_rating` numeric(2, 1) NOT NULL, 
+        `bill_street` varchar(50) NOT NULL, 
+        `bill_city` varchar(50) NOT NULL, 
+        `bill_state` varchar(50) NOT NULL, 
+        `bill_country` varchar(50) NOT NULL, 
+        `bill_postal_code` varchar(50) NOT NULL, 
+        `invoice_total` numeric(20, 2) NOT NULL, 
+        `date_ordered` datetime(6) NOT NULL, 
+        `date_shipped` datetime(6) NOT NULL, 
+        `date_completed` datetime(6) NOT NULL, 
+        `customer_id_id` integer NOT NULL, 
+        `ship_via_id` integer NOT NULL);
+        CREATE TABLE IF NOT EXISTS
+        `ecommerce_site_order_product_id`(`id` integer AUTO_INCREMENT NOT NULL PRIMARY  KEY, 
+        `order_id` integer NOT  NULL, 
+        `product_id` integer NOT NULL);
+        ALTER TABLE `ecommerce_site_customer`
+        ADD COLUMN `assigned_employee_id` integer NULL, 
+        ADD CONSTRAINT `ecommerce_site_custo_assigned_employee_id_5ddfe05b_fk_ecommerce` FOREIGN KEY(`assigned_employee_id`)
+        REFERENCES `ecommerce_site_employee`(`id`);
+        ALTER TABLE `ecommerce_site_product`
+        ADD CONSTRAINT `ecommerce_site_produ_supplier_id_id_8b897f6c_fk_ecommerce`
+        FOREIGN KEY(`supplier_id_id`)
+        REFERENCES `ecommerce_site_supplier`(`id`);
+        ALTER TABLE `ecommerce_site_order`
+        ADD CONSTRAINT `ecommerce_site_order_customer_id_id_5500849e_fk_ecommerce`
+        FOREIGN KEY(`customer_id_id`)
+        REFERENCES `ecommerce_site_customer`(`id`);
+        ALTER TABLE `ecommerce_site_order`
+        ADD CONSTRAINT `ecommerce_site_order_ship_via_id_24fec581_fk_ecommerce`
+        FOREIGN KEY(`ship_via_id`)
+        REFERENCES `ecommerce_site_shipper`(`id`);
+        ALTER TABLE `ecommerce_site_order_product_id`
+        ADD CONSTRAINT `ecommerce_site_order_pro_order_id_product_id_49fecc15_uniq`
+        UNIQUE(`order_id`, `product_id`);
+        ALTER TABLE `ecommerce_site_order_product_id`
+        ADD CONSTRAINT `ecommerce_site_order_order_id_e2aa3877_fk_ecommerce`
+        FOREIGN KEY(`order_id`)
+        REFERENCES `ecommerce_site_order`(`id`);
+        ALTER TABLE `ecommerce_site_order_product_id`
+        ADD CONSTRAINT `ecommerce_site_order_product_id_4a132e26_fk_ecommerce`
+        FOREIGN KEY(`product_id`) REFERENCES
+        `ecommerce_site_product`(`id`); 
+    """, multi=True)
+
     # Reset all tables and import new data
     cursor.execute("DELETE FROM ecommerce_site_order_product_id")
     cursor.execute("DELETE FROM ecommerce_site_order")
@@ -36,7 +120,7 @@ if __name__ == '__main__':
     cursor.execute("DELETE FROM ecommerce_site_customer")
     cursor.execute("DELETE FROM ecommerce_site_employee")
     cursor.execute("DELETE FROM ecommerce_site_shipper")
-    conn.commit() #or conn.rollback()
+    conn.commit()
 
     df_supplier = import_csv('supplier.csv')
     df_product = import_csv('product.csv')
@@ -76,26 +160,16 @@ if __name__ == '__main__':
                        (row[0], row[1], row[2],))
         conn.commit()
     for index, row in df_order.iterrows():
-        cursor.execute('INSERT INTO ecommerce_site_order(id, tracking_number, status, '
+        cursor.execute('INSERT INTO ecommerce_site_order(id, tracking_number, status,'
                        'customer_rating, bill_street, bill_city, bill_state, bill_country,'
                        'bill_postal_code, invoice_total, date_ordered, date_shipped, date_completed,'
                        ' customer_id_id, ship_via_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
                        (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
                         row[11], row[12], fake.random_int(min=1, max=len(df_customer)), fake.random_int(min=1, max=len(df_shipper)),))
         conn.commit()
-
-
-"""
-1,TNC946108553,Pending_Payment,2,91205 Sawyer Mews Apt. 487,North Matthew,Pennsylvania,Bangladesh,89018,
-1621.66,2020-02-18 09:39:15,2020-03-13 16:00:50,2020-04-08 19:20:59
-
-
-"""
-
-
-    #df = pd.read_csv('filename')
-
-
-"""    cursor.execute("SELECT * FROM ecommerce_site_product")
-    row = cursor.fetchall()
-    print(row)"""
+    for i in range(1, 100):
+        cursor.execute('INSERT INTO ecommerce_site_order_product_id(id, order_id, product_id) '
+                       'VALUES (%s,%s,%s)',
+                       (i, fake.random_int(min=1, max=len(df_order)),
+                        fake.random_int(min=1, max=len(df_product)),))
+        conn.commit()
