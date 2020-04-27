@@ -1,6 +1,18 @@
 
 # ECommerce Website Documentation
 
+* CPSC408 Project Members:
+  * Jin Jung
+  * Alex Jones
+
+**ASSIGNMENT 3**
+
+  * Database Schema Diagram is avaiable to view under ECommerce/CPSC408_Documentation/schema
+  * fakerecords.py is the utility used to populate csv files with fake data for this database, and it located in       ECommerce/ECommerce/fakerecords.py.
+  * import.py is the program that will read in the generated csv files, connect to the mysql server, create required tables if they don't already exist, then insert fake data into the database. import.py is located in ECommerce/ECommerce/import.py
+  
+
+
 **How to set up the environment**
 clone repository <br>
 open project in pycharm </br>
