@@ -55,7 +55,7 @@ class Order(models.Model):
     ship_via = models.ForeignKey(Shipper, on_delete=models.DO_NOTHING)
     tracking_number = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    customer_rating = models.DecimalField(max_digits=1, decimal_places=1)
+    customer_rating = models.DecimalField(max_digits=2, decimal_places=1)
     bill_street = models.CharField(max_length=50)
     bill_city = models.CharField(max_length=50)
     bill_state = models.CharField(max_length=50)

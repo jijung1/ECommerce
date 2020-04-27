@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.http import HttpResponse
-#from django.template import loader #there's a short cut using shortcuts
+# from django.template import loader #there's a short cut using shortcuts
 from .models import Product, Supplier, Customer, Order
 
 def index(request):
