@@ -4,9 +4,14 @@ body {
     padding: 0;
     background: #343234;
     font-family: 'Roboto Slab', serif;
-    font-size: 2rem;
+    font-size: 3rem;
     color: #f7ba5b;
 }
+
+.tableh {
+    color: #78af9f!important;
+}
+
 
 .introduction {
     padding-top: 15%;
@@ -34,6 +39,7 @@ body {
 
 .navbar-brand {
     font-family: 'Pacifico', cursive;
+    font-size: 3rem;
     color: #78af9f;
 }
 
@@ -44,9 +50,27 @@ body {
     color: #f7ba5b!important;
 }
 
-.row{
-    padding-bottom: 20%;
+
+
+.scroll {
+    max-height: 800px;
+    overflow-y: auto;
 }
 
+.col-lg-4 {
+    text-align: center;
+}
 
+.buttonlinks {
+    padding-top: 100px!important;
+}
+
+.table {
+    border:solid 4px #78af9f;
+}
+.spacing {
+    margin-top: 100px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
 

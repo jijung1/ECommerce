@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponse
 # from django.template import loader #there's a short cut using shortcuts
-from .models import Product, Supplier, Customer, Order
+from .models import *
 from django.contrib.auth.decorators import login_required
 
 
@@ -28,8 +28,48 @@ def loginpage(request):
 
 @login_required(login_url='loginpage')
 def mainpage(request):
-    return render(request, 'ecommerce_site/main.html')
 
+    #can do fancy sql stuff here..
+
+    #using queryset
+    products = Product.objects.all()
+    orders = Order.objects.all()
+    shippers = Shipper.objects.all()
+    customers = Customer.objects.all()
+    employees = Employee.objects.all()
+
+    results = customers.raw('SELECT * from ecommerce_site_customer WHERE first_name like "a%"')
+    context = {
+        'products': products,
+        'orders': orders,
+        'shippers': shippers,
+        'customers': customers,
+        'employees': employees,
+        'results': results
+
+    }
+    return render(request, 'ecommerce_site/main.html', context)
+
+
+@login_required(login_url='loginpage')
+def querypage(request):
+    #using queryset
+    products = Product.objects.all()
+    orders = Order.objects.all()
+    shippers = Shipper.objects.all()
+    customers = Customer.objects.all()
+    employees = Employee.objects.all()
+    suppliers = Supplier.objects.all()
+    context = {
+        'products': products,
+        'orders': orders,
+        'shippers': shippers,
+        'customers': customers,
+        'employees': employees,
+        'suppliers': suppliers,
+
+    }
+    return render(request, 'ecommerce_site/query.html', context)
 
 def logoutpage(request):
     logout(request)

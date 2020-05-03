@@ -1,0 +1,202 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} <title>Ad-Hoc Queries ☁ </title> {% endblock %}
+
+
+{% block body %}
+    <div class="row buttonlinks">
+        <div class="col-lg-4">
+            <h3>Go To Products</h3>
+            <span><a href="#product"><img src="/static/ecommerce_site/images/products.svg" width="256px"></a></span>
+        </div>
+        <div class="col-lg-4">
+            <h3>Go To Orders</h3>
+            <span><a href="#order"><img src="/static/ecommerce_site/images/orders.svg" width="256px"></a></span>
+        </div>
+        <div class="col-lg-4">
+            <h3>Go To Customers</h3>
+            <span><a href="#customer"><img src="/static/ecommerce_site/images/customers.svg" width="256px"></a></span>
+        </div>
+    </div>
+    <div class="row buttonlinks">
+        <div class="col-lg-4">
+            <h3>Go To Employees</h3>
+            <span><a href="#employee"><img src="/static/ecommerce_site/images/employees.svg" width="256px"></a></span>
+        </div>
+        <div class="col-lg-4">
+            <h3>Go To Suppliers</h3>
+            <span><a href="#supplier"><img src="/static/ecommerce_site/images/supplier.svg" width="256px"></a></span>
+        </div>
+        <div class="col-lg-4">
+            <h3>Go To Shippers</h3>
+            <span><a href="#shipper"><img src="/static/ecommerce_site/images/shipper.svg" width="256px"></a></span>
+        </div>
+    </div>
+
+    <div class="row spacing">
+        <div class="col-lg-12 scroll" id="product">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Products </h1>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>In Stock</th>
+                        <th>On Order</th>
+                    </tr>
+                    {% for i in products %}
+                        <tr>
+                            <td>{{ i.prod_name }}</td>
+                            <td>{{ i.price }}</td>
+                            <td>{{ i.units_in_stock }}</td>
+                            <td>{{ i.units_on_order }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+     <div class="row spacing">
+        <div class="col-lg-12 scroll" id="order">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Orders </h1>
+                    <tr>
+                        <th>Ordered By</th>
+                        <th>Status</th>
+                        <th>Date Ordered</th>
+                        <th>Date Shipped</th>
+                        <th>Date Completed</th>
+                        <th>Shipper</th>
+                        <th>TRK NO</th>
+                    </tr>
+                    {% for i in orders %}
+                        <tr>
+                            <td>{{ i.customer_id.first_name }} {{ i.customer_id.last_name }}</td>
+                            <td>{{ i.status }}</td>
+                            <td>{{ i.date_ordered }}</td>
+                            <td>{{ i.date_shipped }}</td>
+                            <td>{{ i.date_completed }}</td>
+                            <td>{{ i.ship_via.shipper_name }}</td>
+                            <td>{{ i.tracking_number }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row spacing">
+        <div class="col-lg-12 scroll" id="customer">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Customers </h1>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Street Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Country</th>
+                    </tr>
+                    {% for i in customers %}
+                        <tr>
+                            <td>{{ i.first_name }} {{ i.last_name }}</td>
+                            <td>{{ i.company }}</td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.ship_street }}</td>
+                            <td>{{ i.ship_city }}</td>
+                            <td>{{ i.ship_state }}</td>
+                            <td>{{ i.ship_country }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+     <hr>
+
+    <div class="row spacing">
+        <div class="col-lg-12 scroll" id="employee">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Employees </h1>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Email</th>
+                    </tr>
+                    {% for i in employees %}
+                        <tr>
+                            <td>{{ i.first_name}} {{ i.last_name }}</td>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+     <hr>
+
+    <div class="row spacing">
+        <div class="col-lg-12 scroll" id="supplier">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Suppliers </h1>
+                    <tr>
+                        <th>Name</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                    </tr>
+                    {% for i in suppliers %}
+                        <tr>
+                            <td>{{ i.supplier_name }}</td>
+                            <td>{{ i.product_name }}</td>
+                            <td>{{ i.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+     <hr>
+
+    <div class="row spacing">
+        <div class="col-lg-12 scroll" id="shipper">
+            <div class="card card-body">
+                <table class="table">
+                    <h1 class="tableh"> Shippers </h1>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                    </tr>
+                    {% for i in shippers %}
+                        <tr>
+                            <td>{{ i.shipper_name}}</td>
+                            <td>{{ i.phone }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!--
+attributions:
+ Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+-->

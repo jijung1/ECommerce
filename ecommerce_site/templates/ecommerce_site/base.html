@@ -54,7 +54,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><a href="/admin">Database Administration</a></li>
-          <li><a href="">Filtered Queries</a></li>
+          <li><a href="{% url 'query' %}">Filtered Queries</a></li>
           <li class="logout_link">
               <span>Logged in as , {{ request.user }} </span>
               <span><a href={% url 'logout' %}><strong>Logout</strong></a></span>
