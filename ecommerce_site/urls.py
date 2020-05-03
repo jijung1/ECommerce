@@ -1,9 +1,9 @@
 from django.conf.urls import url
+from django.urls import path
 from . import views
 
 urlpatterns = [
-   url(r'^$', views.index, name='index'),
-    #/ecommerce_site/101/
-    url(r'^(?P<product_id>[0-9]+)/$', views.product_detail, name=''),
-
+   path('', views.loginpage, name='login'),
+   path('main', views.mainpage, name='main'),
+   path('logout/', views.logoutpage, name='logout')
 ]

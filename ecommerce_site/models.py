@@ -8,7 +8,8 @@ class Supplier(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
-        return 'Supplier: ' + self.supplier_name + ' product: ' + self.product_name + ' supplier price: ' + str(self.price)
+        return '||Supplier name||: ' + self.supplier_name \
+                + ' ||Product||: ' + self.product_name + ' ||Supplier Price||: ' + str(self.price)
 
 
 class Product(models.Model):
@@ -19,7 +20,8 @@ class Product(models.Model):
     supplier_id = models.ForeignKey(Supplier, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return 'PId: ' + str(self.id) + ', Name: ' + self.prod_name + ', Supplier: ' + str(self.supplier_id) + ', Qty: ' + str(self.units_in_stock) + ', Price: $' + str(self.price)
+        return '||Product name||: ' + self.prod_name + ' ||Price||: ' + str(self.price) + ' ||Units in stock||: ' + \
+               str(self.units_in_stock) + ' ||Units on order||: ' + str(self.units_on_order) + ' ||Supplier||: ' + self.supplier_id.supplier_name
 
 
 class Employee(models.Model):
@@ -27,6 +29,10 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return '||Employee name||: ' + self.first_name + ' ' + self.last_name + ' ||Title||: ' \
+               + self.title + ' ||Email||: ' + self.email
 
 
 class Customer(models.Model):
@@ -41,12 +47,17 @@ class Customer(models.Model):
     assigned_employee = models.ForeignKey(Employee, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return 'Name: ' + self.first_name + ' ' + self.last_name
+        return '||Name||: ' + self.first_name + ' ' + self.last_name + ' ||Company||: ' + self.company +\
+               ' ||Email||: ' + self.email + ' ||Shipping Address||: ' + self.ship_street + ' ' +\
+               self.ship_city + ' ' + self.ship_state + ' ' + self.ship_country
 
 
 class Shipper(models.Model):
     shipper_name = models.CharField(max_length=64)
     phone = PhoneField(blank=True)
+
+    def __str__(self):
+        return '||Shipper||: ' + self.shipper_name + ' ||Phone||: ' + str(self.phone)
 
 
 class Order(models.Model):
@@ -67,8 +78,8 @@ class Order(models.Model):
     date_completed = models.DateTimeField()
 
     def __str__(self):
-        return 'CustomerId: ' + str(self.customer_id) + ' productId: ' + str(self.product_id) +\
-               ' Total: ' + str(self.invoice_total)
+        return '||CustomerId||: ' + str(self.customer_id) + ' ||productId||: ' + str(self.product_id) +\
+               ' ||Total||: ' + str(self.invoice_total)
 
 
 

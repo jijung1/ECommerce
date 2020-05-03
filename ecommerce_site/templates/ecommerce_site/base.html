@@ -1,10 +1,81 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../static/ecommerce_site/images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../static/ecommerce_site/images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../static/ecommerce_site/images/favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../static/ecommerce_site/images/favicon_io/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../../static/ecommerce_site/images/favicon_io/favicon-512x512.png">
+    <link rel="manifest" href="../../static/ecommerce_site/images/favicon_io/site.webmanifest">
+
+    <title>Thoughtful Cloud ☁ </title>
+
+<!--font -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Slab&family=Varela+Round&display=swap" rel="stylesheet">
+
+<!-- bootstrap -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- aos -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+
+
+<!-- css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'ecommerce_site/css/style.css' %}" />
+
+    {% block title %}
+        <title>Hello There!</title>
+    {% endblock %}
 </head>
 <body>
+
+<nav class="navbar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a class="navbar-brand" href="/">Cloud-Ecommerce</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/admin">Database Administration</a></li>
+          <li><a href="">Filtered Queries</a></li>
+          <li class="logout_link">
+              <span>Logged in as , {{ request.user }} </span>
+              <span><a href={% url 'logout' %}><strong>Logout</strong></a></span>
+          </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    {% block body %}
+    {% endblock %}
+
+<!-- scripts go here -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.15.0/js/mdb.min.js"></script>
+    <script type="text/javascript" src="{% static 'ecommerce_site/js/index.js' %}"></script>
 
 </body>
 </html>
