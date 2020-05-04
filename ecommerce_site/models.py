@@ -75,7 +75,7 @@ class Order(models.Model):
     invoice_total = models.DecimalField(max_digits=20, decimal_places=2)
     date_ordered = models.DateTimeField()
     date_shipped = models.DateTimeField()
-    date_completed = models.DateTimeField()
+    date_completed = models.DateTimeField(null=True)
 
     def __str__(self):
         return '||CustomerId||: ' + str(self.customer_id) + ' ||productId||: ' + str(self.product_id) +\

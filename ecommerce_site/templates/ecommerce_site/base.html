@@ -14,10 +14,11 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../../static/ecommerce_site/images/favicon_io/favicon-512x512.png">
     <link rel="manifest" href="../../static/ecommerce_site/images/favicon_io/site.webmanifest">
 
-    <title>Thoughtful Cloud ☁ </title>
+    <title> {% block title %} Hello There  {% endblock %}    </title>
 
 <!--font -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Slab&family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
 
 <!-- bootstrap -->
 
@@ -31,9 +32,9 @@
 <!-- css -->
     <link rel="stylesheet" type="text/css" href="{% static 'ecommerce_site/css/style.css' %}" />
 
-    {% block title %}
-        <title>Hello There!</title>
-    {% endblock %}
+
+
+
 </head>
 <body>
 
@@ -56,8 +57,8 @@
           <li><a href="/admin">Database Administration</a></li>
           <li><a href="{% url 'query' %}">Filtered Queries</a></li>
           <li class="logout_link">
-              <span>Logged in as , {{ request.user }} </span>
-              <span><a href={% url 'logout' %}><strong>Logout</strong></a></span>
+              <span>Logged in as {{ request.user }} </span>
+              <span><a href={% url 'logout' %}><em> Logout</em></a></span>
           </li>
       </ul>
     </div><!-- /.navbar-collapse -->

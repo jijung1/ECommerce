@@ -6,7 +6,7 @@ from django.http import HttpResponse
 # from django.template import loader #there's a short cut using shortcuts
 from .models import *
 from django.contrib.auth.decorators import login_required
-
+from .filters import *
 
 def loginpage(request):
     if request.user.is_authenticated:
@@ -38,21 +38,19 @@ def mainpage(request):
     customers = Customer.objects.all()
     employees = Employee.objects.all()
 
-    results = customers.raw('SELECT * from ecommerce_site_customer WHERE first_name like "a%"')
     context = {
         'products': products,
         'orders': orders,
         'shippers': shippers,
         'customers': customers,
-        'employees': employees,
-        'results': results
-
+        'employees': employees
     }
     return render(request, 'ecommerce_site/main.html', context)
 
 
 @login_required(login_url='loginpage')
 def querypage(request):
+
     #using queryset
     products = Product.objects.all()
     orders = Order.objects.all()
@@ -60,6 +58,15 @@ def querypage(request):
     customers = Customer.objects.all()
     employees = Employee.objects.all()
     suppliers = Supplier.objects.all()
+
+    #render data, filter, and remake variable with filtered down data
+    productFilter = ProductFilter(request.POST, queryset=products)
+    products = productFilter.qs
+
+    orderFilter = OrderFilter(request.POST, queryset=orders)
+    orders = orderFilter.qs
+
+
     context = {
         'products': products,
         'orders': orders,
@@ -67,9 +74,11 @@ def querypage(request):
         'customers': customers,
         'employees': employees,
         'suppliers': suppliers,
-
+        'orderFilter': orderFilter,
+        'productFilter': productFilter
     }
     return render(request, 'ecommerce_site/query.html', context)
+
 
 def logoutpage(request):
     logout(request)
