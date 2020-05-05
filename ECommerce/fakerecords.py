@@ -57,7 +57,7 @@ def generate_order(num_records):
         writer.writerow([i, fake.bothify(text="???#########", letters='ACFTCNZXY'),
                          random.choice(status), fake.random_int(min=1, max=5), fake.street_address(), fake.city(),
                         fake.state(), fake.country(), fake.postcode(), fake.pyfloat(left_digits=4, right_digits=2, positive=True, min_value=999, max_value=9999),
-                        fake.date_time_between(start_date='-70d', end_date='-50d'), fake.date_time_between(start_date='-50d', end_date='-30d'), fake.date_time_between(start_date='-30d', end_date='-10d')])
+                        fake.date_time_between(start_date='-150d', end_date='-131d'), fake.date_time_between(start_date='-130d', end_date='-121d'), fake.date_time_between(start_date='-120d', end_date='-1d')])
 
 
 if __name__ == "__main__":

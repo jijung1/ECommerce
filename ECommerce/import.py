@@ -28,7 +28,7 @@ if __name__ == '__main__':
     cursor = conn.cursor()
 
     # Create tables if they do not already exist, then add constraints between relations using ALTER TABLE
-
+    print('creating tables for database')
     cursor.execute(
     """
     CREATE TABLE IF NOT EXISTS
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     cursor.execute("DELETE FROM ecommerce_site_employee")
     cursor.execute("DELETE FROM ecommerce_site_shipper")
     conn.commit()
-
+    print('importing csv files')
     df_supplier = import_csv('supplier.csv')
     df_product = import_csv('product.csv')
     df_employee = import_csv('employee.csv')
@@ -133,11 +133,13 @@ if __name__ == '__main__':
     handle constraints and prepare data for insertion into database (product has fk to supplier, customer has fk to employee,
     order has fk to customer, order has fk to shipper, and lastly ecommerce_site_order_product_id has fk to order and product.)
     """
-
+    print('inserting suppliers')
     for index, row in df_supplier.iterrows():
         cursor.execute('INSERT INTO ecommerce_site_supplier(id, supplier_name, product_name, price) VALUES (%s,%s,%s,%s)',
                        (row[0], row[1], row[2], row[3],))
         conn.commit()
+
+    print('inserting products')
     #for product, randomly assign  pk of supplier to row[5]
     fake = Faker()
     for index, row in df_product.iterrows():
@@ -145,20 +147,24 @@ if __name__ == '__main__':
             'INSERT INTO ecommerce_site_product(id, prod_name, price, units_in_stock, units_on_order, supplier_id_id) VALUES (%s,%s,%s,%s,%s,%s)',
             (row[0], row[1], row[2], row[3],row[4],fake.random_int(min=1, max=len(df_supplier)),))
         conn.commit()
+    print('inserting employees')
     for index, row in df_employee.iterrows():
         cursor.execute('INSERT INTO ecommerce_site_employee(id, first_name, last_name, title, email) VALUES (%s,%s,%s,%s,%s)',
                        (row[0], row[1], row[2], row[3], row[4],))
         conn.commit()
+    print('inserting customers')
     for index, row in df_customer.iterrows():
         cursor.execute('INSERT INTO ecommerce_site_customer(id, first_name, last_name, company, email, ship_street, ship_city, ship_state, ship_country, assigned_employee_id)'
                        ' VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
                        (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], fake.random_int(min=1, max=len(df_employee)),))
         conn.commit()
+    print('inserting shippers')
     for index, row in df_shipper.iterrows():
         cursor.execute('INSERT INTO ecommerce_site_shipper(id, shipper_name, phone)'
                        ' VALUES (%s,%s,%s)',
                        (row[0], row[1], row[2],))
         conn.commit()
+    print('inserting orders')
     for index, row in df_order.iterrows():
         cursor.execute('INSERT INTO ecommerce_site_order(id, tracking_number, status,'
                        'customer_rating, bill_street, bill_city, bill_state, bill_country,'
@@ -167,6 +173,7 @@ if __name__ == '__main__':
                        (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],
                         row[11], row[12], fake.random_int(min=1, max=len(df_customer)), fake.random_int(min=1, max=len(df_shipper)),))
         conn.commit()
+    print('updating order/product details')
     for i in range(1, 100):
         cursor.execute('INSERT INTO ecommerce_site_order_product_id(id, order_id, product_id) '
                        'VALUES (%s,%s,%s)',
