@@ -1,0 +1,72 @@
+-- data grip
+-- price spent on each order
+SELECT ecommerce_site_order.id, ecommerce_site_order.tracking_number, sum(price), count(price)
+FROM ecommerce_site_order
+CROSS JOIN ecommerce_site_order_product_id esopi ON esopi.order_id = ecommerce_site_order.id
+INNER JOIN ecommerce_site_product esp ON esp.id = esopi.product_id
+GROUP BY ecommerce_site_order.id;
+-- can do with or without Having
+-- HAVING COUNT(price) > 1;
+-- for example from this we can see that most orders only had one item
+    -- so perhaps offering more bundles or ads for spending over a certain amount
+
+-- most ordered products
+SELECT prod_name
+FROM ecommerce_site_product
+WHERE units_on_order > 60;
+-- possibly the most popular products
+
+
+-- units in stock that are running low
+SELECT prod_name, units_in_stock
+FROM ecommerce_site_product
+WHERE units_in_stock < 100;
+-- can see the most in demand products
+
+
+-- date shipped - date complete 2 queries
+SELECT AVG(customer_rating) as avg_Rating
+FROM ecommerce_site_order
+WHERE (date_completed - date_ordered) < 9000000000;
+
+-- see if shipping time is related
+SELECT AVG(customer_rating) as avg_Rating
+FROM ecommerce_site_order
+WHERE (date_completed - date_ordered) > 9000000000;
+-- see maybe if shipping time is related to rating
+-- or maybe employee is related to rating
+SELECT ecommerce_site_order.id, ese.id, ese.first_name, ese.last_name, customer_rating
+FROM ecommerce_site_order
+INNER JOIN ecommerce_site_customer esc on ecommerce_site_order.customer_id_id = esc.id
+INNER JOIN ecommerce_site_employee ese on esc.assigned_employee_id = ese.id
+ORDER BY ese.id, customer_rating;
+-- can see if maybe certain ratings were related to which employee they had
+-- could potentially help our business to decide whether to invest in the best employees or the fastest shippers
+
+
+
+SELECT ese.id, ese.first_name, ese.last_name, AVG(customer_rating)
+FROM ecommerce_site_order
+INNER JOIN ecommerce_site_customer esc on ecommerce_site_order.customer_id_id = esc.id
+INNER JOIN ecommerce_site_employee ese on esc.assigned_employee_id = ese.id
+GROUP BY ese.id;
+
+
+SELECT *
+FROM ecommerce_site_order
+CROSS JOIN ecommerce_site_order_product_id esopi ON esopi.order_id = ecommerce_site_order.id
+INNER JOIN ecommerce_site_product esp ON esp.id = esopi.product_id;
+
+SELECT *
+FROM ecommerce_site_product
+CROSS JOIN ecommerce_site_order_product_id esopi ON esopi.product_id = ecommerce_site_product.id
+INNER JOIN ecommerce_site_order eso ON eso.id = esopi.order_id;
+
+
+-- is this ethical? haha
+-- customers who had low rating were not pleased at this store, maybe would prefer our store
+SELECT first_name, last_name, email, customer_rating
+FROM ecommerce_site_customer
+INNER JOIN ecommerce_site_order eso on ecommerce_site_customer.id = eso.customer_id_id
+WHERE customer_rating < 3;
+
