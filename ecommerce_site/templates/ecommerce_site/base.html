@@ -32,10 +32,9 @@
 <!-- css -->
     <link rel="stylesheet" type="text/css" href="{% static 'ecommerce_site/css/style.css' %}" />
 
-
-
-
 </head>
+
+
 <body>
 
 <nav class="navbar">
@@ -51,9 +50,10 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a class="navbar-brand" href="/">Cloud-Ecommerce</a></li>
+        <li class="active"><a class="navbar-brand" href={%  url 'loginpage' %}>Cloud-Ecommerce</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+          <li><a href="{%  url 'loginpage' %}">Insights</a></li>
           <li><a href="/admin">Database Administration</a></li>
           <li><a href="{% url 'query' %}">Filtered Queries</a></li>
           <li class="logout_link">
@@ -74,6 +74,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.15.0/js/mdb.min.js"></script>
     <script type="text/javascript" src="{% static 'ecommerce_site/js/index.js' %}"></script>

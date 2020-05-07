@@ -8,11 +8,12 @@ body {
     color: #f7ba5b;
 }
 
+
 .toppy {
     position: fixed;
     top: 25%;
     right: -2%;
-    width: 5%;
+    width: 6%;
 }
 
 .tableh {

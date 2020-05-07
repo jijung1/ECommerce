@@ -4,12 +4,11 @@
 
  {% block title %}Main ☁ {% endblock %}
 
-
 {% block body %}
 
     <div class="row introduction">
         <div class="col-lg-12">
-            <h1>Scroll down for Business Insights</h1>
+            <h1>Business Insights</h1>
             <h3>{{ i.length }}</h3>
             {%  for i in results %}
                 <h1>{{ i }}</h1>
@@ -17,24 +16,74 @@
         </div>
     </div>
 
+<div class="row">
+    <div class="col-lg-12">
+ <!-- Collapse buttons -->
+    <div>
+      <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+        aria-controls="multiCollapseExample1">Employees With Highest Customer Rating</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false"
+        aria-controls="multiCollapseExample2">Employees with Most Sales</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample3" role="button" aria-expanded="false"
+        aria-controls="multiCollapseExample3">Trailing 3 Month Revenue</a>
+     <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2"
+        aria-expanded="false" aria-controls="multiCollapseExample2">Employees with Most Sales</button>
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample3"
+        aria-expanded="false" aria-controls="multiCollapseExample3">Trailing 3 Month Revenue</button>-->
+    </div>
+    <!--/ Collapse buttons -->
+
+    <!-- Collapsible content -->
     <div class="row">
-        <div class="col-lg-12">
-            <canvas id="radarChart"></canvas>
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div class="card card-body">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <canvas id="horizontalBar" ></canvas>
+                    </div>
+                <div class="col-lg-1"></div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+          <div class="card card-body">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <canvas id="horizontalBar2" ></canvas>
+                    </div>
+                <div class="col-lg-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-
-            <canvas id="labelChart"></canvas>
+    <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample3">
+            <div class="card card-body">
+                <div class="row">
+                    <div class ="col-lg-1"></div>
+                        <div class="col-lg-10">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-
-            <canvas id="lineChart"></canvas>
-        </div>
+    <!--/ Collapsible content -->
     </div>
+</div>
+
+
+
+
+
 {% endblock %}
 
 <!--

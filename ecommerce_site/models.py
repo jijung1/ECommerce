@@ -7,6 +7,11 @@ class Supplier(models.Model):
     product_name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=20, decimal_places=2)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['supplier_name', 'product_name', 'price'])
+        ]
+
     def __str__(self):
         return '||Supplier name||: ' + self.supplier_name \
                 + ' ||Product||: ' + self.product_name + ' ||Supplier Price||: ' + str(self.price)
@@ -18,6 +23,11 @@ class Product(models.Model):
     units_in_stock = models.IntegerField()
     units_on_order = models.IntegerField()
     supplier_id = models.ForeignKey(Supplier, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['prod_name', 'price', 'units_in_stock', 'units_on_order'])
+        ]
 
     def __str__(self):
         return '||Product name||: ' + self.prod_name + ' ||Price||: ' + str(self.price) + ' ||Units in stock||: ' + \
@@ -46,6 +56,11 @@ class Customer(models.Model):
     ship_country = models.CharField(max_length=50)
     assigned_employee = models.ForeignKey(Employee, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['first_name', 'last_name', 'company', 'email', 'ship_street', 'ship_city',
+                                 'ship_state', 'ship_country', 'assigned_employee'])
+        ]
     def __str__(self):
         return '||Name||: ' + self.first_name + ' ' + self.last_name + ' ||Company||: ' + self.company +\
                ' ||Email||: ' + self.email + ' ||Shipping Address||: ' + self.ship_street + ' ' +\
@@ -76,6 +91,12 @@ class Order(models.Model):
     date_ordered = models.DateTimeField()
     date_shipped = models.DateTimeField()
     date_completed = models.DateTimeField(null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['invoice_total', 'customer_id', 'ship_via', 'tracking_number',
+                                 'status', 'customer_rating', 'date_ordered', 'date_shipped', 'date_completed'])
+        ]
 
     def __str__(self):
         return '||CustomerId||: ' + str(self.customer_id) + ' ||productId||: ' + str(self.product_id) +\
