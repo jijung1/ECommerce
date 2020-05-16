@@ -117,6 +117,19 @@ def query_customer(request):
     return render(request, 'ecommerce_site/customers.html', context)
 
 @login_required(login_url='loginpage')
+def query_shipper(request):
+    shippers = Shipper.objects.all()
+    # shipperFilter = ShipperFilter(request.POST, queryset=products)
+    #shippers = shipperFilter.qs
+
+    context = {
+        'shippers': shippers,
+       # 'shipperFilter': shipperFilter,
+    }
+    return render(request, 'ecommerce_site/shippers.html', context)
+
+
+@login_required(login_url='loginpage')
 def querypage(request):
 
     #using queryset
@@ -442,4 +455,42 @@ def delete_customer(request, pk):
         return redirect('query_customer')
     context = {'item': customer}
     return render(request, 'ecommerce_site/delete_customer.html', context)
+
+# CRUD for Shipper
+
+@login_required(login_url='loginpage')
+def create_shipper(request):
+    form = ShipperForm()
+    if request.method == 'POST':
+        form = ShipperForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('query_shipper')
+
+    context = {'form': form}
+    return render(request, 'ecommerce_site/create_shipper.html', context)
+
+@login_required(login_url='loginpage')
+def update_shipper(request, pk):
+    shipper = Shipper.objects.get(id=pk)
+    form = ShipperForm(instance=shipper)
+    if request.method == 'POST':
+        form = ShipperForm(request.POST, instance=shipper)
+        if form.is_valid():
+            form.save()
+            return redirect('query_shipper')
+
+    context = {'form': form}
+    return render(request, 'ecommerce_site/create_shipper.html', context)
+
+
+@login_required(login_url='loginpage')
+def delete_shipper(request, pk):
+    shipper = Shipper.objects.get(id=pk)
+    if request.method == 'POST':
+        shipper.delete()
+        return redirect('query_shipper')
+    context = {'item': shipper}
+    return render(request, 'ecommerce_site/delete_shipper.html', context)
+
 

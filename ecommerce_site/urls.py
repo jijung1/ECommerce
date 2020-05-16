@@ -14,7 +14,7 @@ urlpatterns = [
    path('product/', views.query_product, name='query_product'),
    path('employee/', views.query_employee, name='query_employee'),
    path('customer/', views.query_customer, name='query_customer'),
-   #path('shipper/', views.query_shipper, name='query_shipper'),
+   path('shipper/', views.query_shipper, name='query_shipper'),
 
    path('generate_report', views.generate_report, name='generate_report'),
 
@@ -42,5 +42,9 @@ urlpatterns = [
    path('create_customer/', views.create_customer, name='create_customer'),
    path('update_customer/<str:pk>', views.update_customer, name='update_customer'),
    path('delete_customer/<str:pk>', views.delete_customer, name='delete_customer'),
-   #path('generate', views.generate, name='generate')
+
+   # CRUD paths for Shipper
+   path('create_shipper/', views.create_shipper, name='create_shipper'),
+   path('update_shipper/<str:pk>', views.update_shipper, name='update_shipper'),
+   path('delete_shipper/<str:pk>', views.delete_shipper, name='delete_shipper'),   #path('generate', views.generate, name='generate')
 ]
