@@ -1,0 +1,56 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} Suppliers ☁ {% endblock %}
+
+
+{% block body %}
+
+
+    <!-- crud -->
+
+    <div class="row create_new">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="card card-body">
+                <a class="btn btn-primary btn-sm btn-block" href="{% url 'create_supplier' %}">Create New Supplier</a>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+
+
+     <div class="row spacing">
+        <div class="col-lg-12 scroll" id="order">
+            <div class="card card-body">
+                <table class="table table-hover">
+                    <h1 class="tableh"> Suppliers </h1>
+                    <tr>
+                        <th>Supplier Name</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+
+                    </tr>
+                    {% for i in suppliers %}
+                        <tr>
+                            <td>{{ i.supplier_name}}</td>
+                            <td>{{ i.product_name }}</td>
+                            <td>{{ i.price }}</td>
+
+                            <td><a href="{% url 'update_supplier' i.id %}">UPDATE</a></td>
+                            <td><a href="{% url 'delete_supplier' i.id %}">DELETE</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!--
+attributions:
+ Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+-->

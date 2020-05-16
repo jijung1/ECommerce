@@ -1,3 +1,5 @@
+/*  ctrl-shift-del in chrome browser to delete cache to view changes reflected in static files*/
+
 body {
     text-decoration: none;
     margin: 0 auto 0;
@@ -12,8 +14,8 @@ body {
 .toppy {
     position: fixed;
     top: 25%;
-    right: -2%;
-    width: 6%;
+    right: -1.8%;
+    width: 5%;
 }
 
 .tableh {
@@ -86,3 +88,29 @@ body {
         padding: 15px;
 }
 
+.insights {
+        border:solid 2px #78af9f;
+        margin-bottom: 150px;
+        margin-left: 25px;
+        margin-right: 25px;
+}
+
+.insight_titles {
+    text-align: center;
+}
+
+.create_new {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 1%;
+}
+
+form input, form select, form text, form textarea, form label, input{
+    color: #f7ba5b;
+    background-color: #584b4f !important;
+}
+
+h4 {
+    text-align: left;
+}

@@ -1,0 +1,97 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} Orders ☁ {% endblock %}
+
+
+{% block body %}
+
+
+    <!-- crud -->
+
+<div class="row create_new">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href="{% url 'create_order' %}">Create New Order</a>
+        </div>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+
+
+    <!-- Parameterized Filters -->
+
+    <div class="row spacing customborder">
+        <div class="col-lg-12">
+            <h3>Order Filter</h3>
+            <div class="card card-body">
+                <form method="POST">
+                {%  csrf_token %}
+                    {{ orderFilter.form }}
+
+                    <button class="btn btn-primary" style="margin-top: 2%" type="submit">Search</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+     <div class="row spacing">
+        <div class="col-lg-12 scroll" id="order">
+            <div class="card card-body">
+                <table class="table table-hover">
+                    <h1 class="tableh"> Orders </h1>
+                    <tr>
+                        <th>Ordered By</th>
+                        <th>Status</th>
+                        <th>Date Ordered</th>
+                        <th>Date Shipped</th>
+                        <th>Date Completed</th>
+                        <th>Shipper</th>
+                        <th>TRK NO</th>
+                        <th>Customer Rating</th>
+                        <th>Product</th>
+                        <th>Billing Street Address</th>
+                        <th>Billing City</th>
+                        <th>Billing State</th>
+                        <th>Billing Postal Code</th>
+                        <th>Invoice Total</th>
+                        <th>Billing Country</th>
+                    </tr>
+                    {% for i in orders %}
+                        <tr>
+                            <td>{{ i.customer_id.first_name }} {{ i.customer_id.last_name }}</td>
+                            <td>{{ i.status }}</td>
+                            <td>{{ i.date_ordered }}</td>
+                            <td>{{ i.date_shipped }}</td>
+                            <td>{{ i.date_completed }}</td>
+                            <td>{{ i.ship_via.shipper_name }}</td>
+                            <td>{{ i.tracking_number }}</td>
+                            <td>{{ i.customer_rating }}</td>
+                            <td>{{ i.product_id.name }}</td>
+                            <td>{{ i.bill_street }}</td>
+                            <td>{{ i.bill_city }}</td>
+                            <td>{{ i.bill_state }}</td>
+                            <td>{{ i.bill_postal_code }}</td>
+                            <td>{{ i.invoice_total }}</td>
+                            <td>{{ i.bill_country }}</td>
+                            <td><a href="{% url 'update_order' i.id %}">UPDATE</a></td>
+                            <td><a href="{% url 'delete_order' i.id %}">DELETE</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!--
+attributions:
+ Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+-->

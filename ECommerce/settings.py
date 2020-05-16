@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework'
 ]
 
-
+"""
 #DataFlair #Database Cache
 CACHES = {
     'default': {
@@ -51,15 +51,9 @@ CACHES = {
         'LOCATION': 'dataflair_cache',
     }
 }
+"""
 
-"""
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'DataFlair',
-    }
-}
-"""
+
 
 
 MIDDLEWARE = [

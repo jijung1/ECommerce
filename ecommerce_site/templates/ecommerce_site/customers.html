@@ -1,0 +1,64 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} Customers ☁ {% endblock %}
+
+
+{% block body %}
+
+
+    <!-- crud -->
+
+<div class="row create_new">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href="{% url 'create_customer' %}">Create New Customer</a>
+        </div>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+
+     <div class="row spacing">
+        <div class="col-lg-12 scroll" id="customer">
+            <div class="card card-body">
+                <table class="table table-hover">
+                    <h1 class="tableh"> Customers </h1>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Street Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>Assigned Employee</th>
+                    </tr>
+                    {% for i in customers %}
+                        <tr>
+                            <td>{{ i.first_name }} {{ i.last_name }}</td>
+                            <td>{{ i.company }}</td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.ship_street }}</td>
+                            <td>{{ i.ship_city }}</td>
+                            <td>{{ i.ship_state }}</td>
+                            <td>{{ i.ship_country }}</td>
+                            <td>{{ i.assigned_employee }}</td>
+                            <td><a href="{% url 'update_customer' i.id %}">UPDATE</a></td>
+                            <td><a href="{% url 'delete_customer' i.id %}">DELETE</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!--
+attributions:
+ Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+-->

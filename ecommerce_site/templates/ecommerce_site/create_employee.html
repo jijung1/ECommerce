@@ -1,0 +1,23 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} Create Employee ☁ {% endblock %}
+
+{% block body %}
+<div class="row create_new">
+    <div class=col-lg-4"></div>
+    <div class="col-lg-4">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {%  for i in form %}
+                <h4> {{ i.label }}</h4>
+                <div>{{ i }} </div>
+            {% endfor %}
+            <input class="create_new" type="submit" name="Submit">
+        </form>
+    </div>
+    <div class="col-lg-4"></div>
+
+</div>
+{% endblock %}

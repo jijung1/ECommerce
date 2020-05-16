@@ -1,0 +1,27 @@
+{%  extends 'ecommerce_site/base.html' %}
+
+{% load static %}
+
+ {% block title %} Delete Order ☁ {% endblock %}
+
+
+{% block body %}
+
+<div class="row create_new">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+        <p>Are you sure you want to delete "{{ item }}"?</p>
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="submit" name="Yes (Delete)">
+        <a href="{% url 'query_order' %}">No (Cancel)</a>
+
+    </form>
+
+    </div>
+    <div class="col-lg-4"></div>
+
+</div>
+
+{% endblock %}

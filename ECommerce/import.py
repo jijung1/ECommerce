@@ -179,4 +179,13 @@ if __name__ == '__main__':
                        'VALUES (%s,%s,%s)',
                        (i, fake.random_int(min=1, max=len(df_order)),
                         fake.random_int(min=1, max=len(df_product)),))
-        conn.commit()
+        conn.commit() or conn.rollback()
+    print('Creating indexes')
+    # Create indexes
+    cursor.execute('CREATE INDEX product_index on ecommerce_site_product(price)')
+    cursor.execute('CREATE INDEX order_index on ecommerce_site_order(date_completed)')
+    cursor.execute('CREATE INDEX supplier_index on ecommerce_site_supplier(product_name)')
+    cursor.execute('CREATE INDEX employee_index on ecommerce_site_employee(first_name)')
+    cursor.execute('CREATE INDEX shipper_index on ecommerce_site_employee(shipper_name)')
+    cursor.execute('CREATE INDEX customer_index on ecommerce_site_customer(first_name)')
+    conn.commit() or conn.rollback()

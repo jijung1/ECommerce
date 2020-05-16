@@ -24,11 +24,6 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
-<!-- aos -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-
-
-
 <!-- css -->
     <link rel="stylesheet" type="text/css" href="{% static 'ecommerce_site/css/style.css' %}" />
 
@@ -55,7 +50,20 @@
       <ul class="nav navbar-nav navbar-right">
           <li><a href="{%  url 'loginpage' %}">Insights</a></li>
           <li><a href="/admin">Database Administration</a></li>
-          <li><a href="{% url 'query' %}">Filtered Queries</a></li>
+          <li class="nav-item dropdown">
+              <a class="nav-link-dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Filtered Queries
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="{% url 'query' %}">Queries All Tables</a><br>
+                  <a class="dropdown-item" href="{% url 'query_order' %}">Query Orders</a><br>
+                  <a class="dropdown-item" href="{% url 'query_product' %}">Query Products</a><br>
+                  <a class="dropdown-item" href="{% url 'query_supplier' %}">Query Suppliers</a><br>
+                  <a class="dropdown-item" href="{% url 'query_employee' %}">Query Employees</a><br>
+                  <a class="dropdown-item" href="{% url 'query_customer' %}">Query Customers</a><br>
+                  <a class="dropdown-item" href="#">link</a>
+              </div>
+          </li>
           <li class="logout_link">
               <span>Logged in as {{ request.user }} </span>
               <span><a href={% url 'logout' %}><em> Logout</em></a></span>
