@@ -31,7 +31,7 @@ class Product(models.Model):
 
     def __str__(self):
         return '||Product name||: ' + self.prod_name + ' ||Price||: ' + str(self.price) + ' ||Units in stock||: ' + \
-               str(self.units_in_stock) + ' ||Units on order||: ' + str(self.units_on_order) + ' ||Supplier||: ' + self.supplier_id.supplier_name
+               str(self.units_in_stock) + ' ||Units on order||: ' + str(self.units_on_order) + ' ||Supplier||: ' + str(self.supplier_id)
 
 
 class Employee(models.Model):
@@ -99,7 +99,7 @@ class Order(models.Model):
         ]
 
     def __str__(self):
-        return '||CustomerId||: ' + str(self.customer_id) + ' ||productId||: ' + str(self.product_id) +\
+        return '||CustomerId||: ' + str(self.customer_id) +\
                ' ||Total||: ' + str(self.invoice_total)
 
 

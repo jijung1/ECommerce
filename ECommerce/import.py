@@ -189,3 +189,6 @@ if __name__ == '__main__':
     cursor.execute('CREATE INDEX shipper_index on ecommerce_site_employee(shipper_name)')
     cursor.execute('CREATE INDEX customer_index on ecommerce_site_customer(first_name)')
     conn.commit() or conn.rollback()
+
+    # Create Stored Procedures
+    cursor.execute('CREATE PROCEDURE')

@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .filters import *
 from django.http import JsonResponse
 from django.views.generic import View
+from django.views.generic.base import TemplateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -54,79 +55,60 @@ def loginpage(request):
 def mainpage(request):
     return render(request, 'ecommerce_site/main.html')
 
-@login_required(login_url='loginpage')
-def query_order(request):
-    orders = Order.objects.all()
-    orderFilter = OrderFilter(request.POST, queryset=orders)
-    orders = orderFilter.qs
 
-    context = {
-        'orders': orders,
-        'orderFilter': orderFilter,
-    }
-    return render(request, 'ecommerce_site/orders.html', context)
+class QueryOrder(TemplateView):
+    template_name = 'ecommerce_site/orders.html'
 
-@login_required(login_url='loginpage')
-def query_supplier(request):
-    suppliers = Supplier.objects.all()
-    # TODO: add parameterized filters to filters.py
-    # supplierFilter = SupplierFilter(request.POST, queryset=suppliers)
-    # suppliers = supplierFilter.qs
-
-    context = {
-        'suppliers': suppliers,
-        # 'supplierFilter': supplierFilter,
-    }
-    return render(request, 'ecommerce_site/suppliers.html', context)
+    def get(self, request):
+        orders = Order.objects.all()
+        orderFilter = OrderFilter(request.POST, queryset=orders)
+        orders = orderFilter.qs
+        self.context = {'orders': orders, 'orderFilter':orderFilter}
+        return render(request, self.template_name, self.context)
 
 
-@login_required(login_url='loginpage')
-def query_product(request):
-    products = Product.objects.all()
-    productFilter = ProductFilter(request.POST, queryset=products)
-    products = productFilter.qs
+class QuerySupplier(TemplateView):
+    template_name = 'ecommerce_site/suppliers.html'
 
-    context = {
-        'products': products,
-        'productFilter': productFilter,
-    }
-    return render(request, 'ecommerce_site/products.html', context)
+    def get(self, request):
+        self.context = {'suppliers': Supplier.objects.all()}
+        return render(request, self.template_name, self.context)
 
-@login_required(login_url='loginpage')
-def query_employee(request):
-    employees = Employee.objects.all()
-    # employeeFilter = EmployeeFilter(request.POST, queryset=products)
-    #employees = employeeFilter.qs
 
-    context = {
-        'employees': employees,
-       # 'employeeFilter': employeeFilter,
-    }
-    return render(request, 'ecommerce_site/employees.html', context)
+class QueryProduct(TemplateView):
+    template_name = 'ecommerce_site/products.html'
 
-@login_required(login_url='loginpage')
-def query_customer(request):
-    customers = Customer.objects.all()
-    # customerFilter = CustomerFilter(request.POST, queryset=products)
-    #customers = customerFilter.qs
+    def get(self, request):
+        products = Product.objects.all()
+        productFilter = ProductFilter(request.POST, queryset=products)
+        products = productFilter.qs
+        self.context = {'products': products,
+                        'productFilter': productFilter,}
+        return render(request, self.template_name, self.context)
 
-    context = {
-        'customers': customers,
-       # 'customerFilter': customerFilter,
-    }
-    return render(request, 'ecommerce_site/customers.html', context)
 
-@login_required(login_url='loginpage')
-def query_shipper(request):
-    shippers = Shipper.objects.all()
-    # shipperFilter = ShipperFilter(request.POST, queryset=products)
-    #shippers = shipperFilter.qs
+class QueryEmployee(TemplateView):
+    template_name = 'ecommerce_site/employees.html'
 
-    context = {
-        'shippers': shippers,
-       # 'shipperFilter': shipperFilter,
-    }
-    return render(request, 'ecommerce_site/shippers.html', context)
+    def get(self, request):
+        self.context = {'employees': Employee.objects.all()}
+        return render(request, self.template_name, self.context)
+
+
+class QueryCustomer(TemplateView):
+    template_name = 'ecommerce_site/customers.html'
+
+    def get(self, request):
+        self.context = {'customers': Customer.objects.all()}
+        return render(request, self.template_name, self.context)
+
+
+class QueryShipper(TemplateView):
+    template_name = 'ecommerce_site/shippers.html'
+
+    def get(self, request):
+        self.context = {'shippers': Shipper.objects.all()}
+        return render(request, self.template_name, self.context)    # shipperFilter = ShipperFilter(request.POST, queryset=products)
 
 
 @login_required(login_url='loginpage')
@@ -252,9 +234,6 @@ class ChartData(APIView):
         month_revenue_march = cursor.fetchall()
 
         conn.close()
-
-        print("ChartData function called")
-        print(type(best_rated_employee))
 
         data = {
             "employee_rating": best_rated_employee,

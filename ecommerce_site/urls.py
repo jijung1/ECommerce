@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
+
 from django.urls import path
 from . import views
 from .views import *
@@ -9,12 +11,12 @@ urlpatterns = [
    path('ad-hoc-queries/', views.querypage, name='query'),
    path('main', views.mainpage, name='mainpage'),
    path('api/chart/data', ChartData.as_view()),
-   path('order/', views.query_order, name='query_order'),
-   path('supplier/', views.query_supplier, name='query_supplier'),
-   path('product/', views.query_product, name='query_product'),
-   path('employee/', views.query_employee, name='query_employee'),
-   path('customer/', views.query_customer, name='query_customer'),
-   path('shipper/', views.query_shipper, name='query_shipper'),
+   path('order/', login_required(QueryOrder.as_view()), name='query_order'),
+   path('supplier/', login_required(QuerySupplier.as_view()), name='query_supplier'),
+   path('product/', login_required(QueryProduct.as_view()), name='query_product'),
+   path('employee/', login_required(QueryEmployee.as_view()), name='query_employee'),
+   path('customer/', login_required(QueryCustomer.as_view()), name='query_customer'),
+   path('shipper/', login_required(QueryShipper.as_view()), name='query_shipper'),
 
    path('generate_report', views.generate_report, name='generate_report'),
 
