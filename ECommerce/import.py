@@ -180,15 +180,23 @@ if __name__ == '__main__':
                        (i, fake.random_int(min=1, max=len(df_order)),
                         fake.random_int(min=1, max=len(df_product)),))
         conn.commit() or conn.rollback()
+
+
     print('Creating indexes')
     # Create indexes
     cursor.execute('CREATE INDEX product_index on ecommerce_site_product(price)')
     cursor.execute('CREATE INDEX order_index on ecommerce_site_order(date_completed)')
     cursor.execute('CREATE INDEX supplier_index on ecommerce_site_supplier(product_name)')
     cursor.execute('CREATE INDEX employee_index on ecommerce_site_employee(first_name)')
-    cursor.execute('CREATE INDEX shipper_index on ecommerce_site_employee(shipper_name)')
+    cursor.execute('CREATE INDEX shipper_index on ecommerce_site_shipper(shipper_name)')
     cursor.execute('CREATE INDEX customer_index on ecommerce_site_customer(first_name)')
     conn.commit() or conn.rollback()
 
+    print('Creating Routines')
     # Create Stored Procedures
-    cursor.execute('CREATE PROCEDURE')
+    cursor.execute('CREATE PROCEDURE CreateShipper (IN shipper_name VARCHAR(32), IN phone VARCHAR(31)) BEGIN INSERT INTO ecommerce_site_shipper VALUES (default, shipper_name, phone); end;')
+    cursor.execute('CREATE PROCEDURE Top_Rated_Employees() BEGIN SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, AVG(customer_rating) employee_average_rating FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5; end;')
+    cursor.execute('CREATE PROCEDURE Top_Sales_Employees() BEGIN SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, SUM(invoice_total) FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5; END;')
+    cursor.execute("CREATE PROCEDURE Total_Revenue_May() BEGIN SELECT SUM(invoice_total) FROM ecommerce_site_order WHERE date_completed BETWEEN '2020-05-01' AND '2020-05-31'; END;")
+    cursor.execute("CREATE PROCEDURE Total_Revenue_April() BEGIN SELECT SUM(invoice_total) FROM ecommerce_site_order WHERE date_completed BETWEEN '2020-04-01' AND '2020-04-30'; END;")
+    cursor.execute("CREATE PROCEDURE Total_Revenue_March() BEGIN SELECT SUM(invoice_total) FROM ecommerce_site_order WHERE date_completed BETWEEN '2020-03-01' AND '2020-03-31'; END;")

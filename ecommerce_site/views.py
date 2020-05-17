@@ -159,14 +159,21 @@ class MainView(View):
 @login_required(login_url='loginpage')
 def generate_report(request):
     conn = connect()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
+
+    cursor.callproc('Top_Rated_Employees')
+    best_rated_employee = []
+    for result in cursor.stored_results():
+        best_rated_employee.append(result.fetchall())
 
     cursor.execute(
-        'SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, AVG(customer_rating) employee_average_rating FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5')
-    best_rated_employee = cursor.fetchall()
-    cursor.execute(
         'SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, SUM(invoice_total) FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5')
-    best_sale_employee = cursor.fetchall()
+
+    best_sale_employee=[]
+    cursor.callproc('Top_Sales_Employees')
+    for result in cursor.stored_results():
+        best_sale_employee.append(result.fetchall())
+
     cursor.execute(
         "SELECT SUM(invoice_total) FROM ecommerce_site_order WHERE date_completed BETWEEN '2020-05-01' AND '2020-05-31'")
     month_revenue_may = cursor.fetchall()
@@ -179,28 +186,22 @@ def generate_report(request):
 
     conn.close()
 
-    """
-        context = {'best_rated_employee': best_rated_employee, 'best_sale_employee': best_sale_employee,
-               'month_revenue_may': month_revenue_may, 'month_revenue-march': month_revenue_march,
-               'month_revenue_april': month_revenue_april}
 
-    """
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename = "report.csv"'
     writer = csv.writer(response)
-    max_rows = max(len(best_sale_employee), len(best_rated_employee), len(month_revenue_march), len(month_revenue_april), len(month_revenue_may)) #should return 5
+    max_rows = max(len(best_sale_employee[0]), len(best_rated_employee[0]), len(month_revenue_march), len(month_revenue_april), len(month_revenue_may)) #should return 5
     writer.writerow(['BR_FirstName', 'BR_LastName', 'Avg_Rating', 'BS_FirstName', 'BS_LastName', 'BS_total_sales', 'March_Sales', 'April_Sales', 'May_Sales'])
-
     for i in range(max_rows):
         merged=[]
-        if i < len(best_rated_employee):
-            merged.append(best_rated_employee[i][0])
-            merged.append(best_rated_employee[i][1])
-            merged.append(best_rated_employee[i][2])
-        if i < len(best_sale_employee):
-            merged.append(best_sale_employee[i][0])
-            merged.append(best_sale_employee[i][1])
-            merged.append(best_sale_employee[i][2])
+        if i < len(best_rated_employee[0]):
+            merged.append(best_rated_employee[0][i][0])
+            merged.append(best_rated_employee[0][i][1])
+            merged.append(best_rated_employee[0][i][2])
+        if i < len(best_sale_employee[0]):
+            merged.append(best_sale_employee[0][i][0])
+            merged.append(best_sale_employee[0][i][1])
+            merged.append(best_sale_employee[0][i][2])
         if i < len(month_revenue_march):
             merged.append(float(month_revenue_march[i][0]))
         if i < len(month_revenue_april):
@@ -208,6 +209,8 @@ def generate_report(request):
         if i < len(month_revenue_may):
             merged.append(float(month_revenue_may[i][0]))
         merged_row = tuple(merged)
+        print(merged_row)
+
         writer.writerow(merged_row)
 
     return response
@@ -221,8 +224,12 @@ class ChartData(APIView):
         conn = connect()
         cursor = conn.cursor()
 
-        cursor.execute('SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, AVG(customer_rating) employee_average_rating FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5')
-        best_rated_employee = cursor.fetchall()
+        #cursor.execute('SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, AVG(customer_rating) employee_average_rating FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5')
+        cursor.callproc('Top_Rated_Employees')
+        best_rated_employee=[]
+        for result in cursor.stored_results():
+            best_rated_employee.append(result.fetchall())
+
         cursor.execute('SELECT ecommerce_site_employee.first_name, ecommerce_site_employee.last_name, SUM(invoice_total) FROM ecommerce_site_employee JOIN ecommerce_site_customer ON ecommerce_site_employee.id = ecommerce_site_customer.assigned_employee_id JOIN ecommerce_site_order on ecommerce_site_customer.id = ecommerce_site_order.customer_id_id GROUP BY ecommerce_site_employee.id ORDER BY 3 desc limit 5')
         best_sale_employee = cursor.fetchall()
 
@@ -236,7 +243,7 @@ class ChartData(APIView):
         conn.close()
 
         data = {
-            "employee_rating": best_rated_employee,
+            "employee_rating": best_rated_employee[0],
             "employee_sales": best_sale_employee,
             "month_revenue_may": month_revenue_may,
             "month_revenue_april": month_revenue_april,
